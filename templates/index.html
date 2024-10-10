@@ -26,8 +26,7 @@
     </style>
 </head>
 <body>
-    <h1>Tabela</h1>
-    <button id="scrape-button">Fazer Scraping</button>
+    <h1>Tabela do #1 Lugar Em Cada Pais</h1>
     <table id="results-table" style="display:none;">
         <thead>
             <tr>
@@ -43,20 +42,22 @@
 
     <script>
         $(document).ready(function() {
-            $('#scrape-button').click(function() {
-                $.get('/scrape', function(data) {
-                    $('#results-body').empty(); // Limpa a tabela anterior
-                    data.forEach(function(row) {
-                        var tr = $('<tr></tr>');
-                        row.forEach(function(cell) {
-                            tr.append('<td>' + cell + '</td>');
-                        });
-                        $('#results-body').append(tr);
+            // Fazer scraping automaticamente ao carregar a página
+            $.get('/scrape', function(data) {
+                $('#results-body').empty(); // Limpa a tabela anterior
+                data.forEach(function(row) {
+                    var tr = $('<tr></tr>');
+                    row.forEach(function(cell) {
+                        tr.append('<td>' + cell + '</td>');
                     });
-                    $('#results-table').show(); // Mostra a tabela
+                    $('#results-body').append(tr);
                 });
+                $('#results-table').show(); // Mostra a tabela
+            }).fail(function() {
+                alert('Erro ao fazer scraping, tente novamente.');
             });
         });
     </script>
 </body>
 </html>
+
