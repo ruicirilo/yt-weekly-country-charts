@@ -2,11 +2,11 @@ from flask import Flask, render_template, jsonify
 import requests
 from bs4 import BeautifulSoup
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html')  # O arquivo index.html deve estar na raiz do projeto
 
 @app.route('/scrape')
 def scrape():
@@ -24,10 +24,16 @@ def scrape():
     for row in rows:
         cols = row.find_all('td')
         cols = [ele.text.strip() for ele in cols]
+        
         if cols:  # Verifique se a linha não está vazia
-            data.append(cols)
+            data.append(cols)  # Adiciona os dados à lista
 
     return jsonify(data)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
+
